@@ -26,7 +26,7 @@ print(df_train.Cabin.value_counts())
 # %%
 # Exploratory Data Analisys
 plt.pie(df_train.Survived.value_counts().values,\
-     labels = [df_train.Survived.value_counts().index], autopct = '%d%%')
+     labels = df_train.Survived.value_counts().index, autopct = '%d%%')
 plt.show()
 
 sns.histplot(data = df_train, x = 'Fare', hue = 'Survived', kde = True)
@@ -115,3 +115,4 @@ model2 = KNeighborsClassifier(k)
 model2.fit(X_train,y_train)
 
 print(f'Test model score: {model2.score(X_test,y_test)}')
+
