@@ -12,6 +12,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+
 
 
 # Load the passenger data
@@ -214,10 +216,24 @@ plt.show()
 
 # train again with the best depth
 bestDepth = 14
-tree = DecisionTreeClassifier(random_state = 1, max_depth = bestDepth)
+tree = DecisionTreeClassifier(max_depth = bestDepth)
 tree.fit(X_train,y_train)
 
 # see the score
 print(f'Decision tree model score: {tree.score(X_test,y_test)}')
 
+# map age to different classes
+# and family
 # %%
+# Random Forest
+
+# create and fit random forest
+forest = RandomForestClassifier(random_state = 1,n_estimators = 200)
+forest.fit(X_train,y_train)
+
+# print feature importance and score
+print(list(zip(features.columns,forest.feature_importances_)))
+print(f'Random forest model score: {forest.score(X_test,y_test)}')
+
+# map age to different classes
+# and family
