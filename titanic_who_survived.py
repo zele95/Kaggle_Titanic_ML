@@ -10,6 +10,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+
 
 # Load the passenger data
 df_train = pd.read_csv('train.csv')
@@ -158,5 +161,63 @@ classifier.fit(X_train,y_train)
 print(f'Naive Bayes model score: {classifier.score(X_test,y_test)}')
 
 # %%
+# SVM
+
+# check for the best parameters
+accuracy = {'gamma':0,'C':0,'value':0}
+i = 5
+for gamma in range(1,i):
+    for C in range(1,i):
+        SVCclassifier = SVC(kernel = 'rbf',gamma = gamma, C = C)
+        SVCclassifier.fit(X_train_std,y_train)
+        score = SVCclassifier.score(X_test_std, y_test)
+        if score > accuracy['value']:
+            accuracy['value'] = score
+            accuracy['gamma'] = gamma
+            accuracy['C'] = C
+
+print(accuracy)
+# see the score
+sc = accuracy['value']
+print(f'SVC model score: {sc}')
+
+# # fit with specific parameters
+# gamma = 1
+# C = 2
+# SVCclassifier = SVC(kernel = 'rbf',gamma = gamma, C = C)
+# SVCclassifier.fit(X_train_std,y_train)
+
+# # see the score
+# print(f'SVC model score: {SVCclassifier.score(X_test_std,y_test)}')
 
 
+# %%
+# Decision tree
+
+# choose the best depth of the tree
+score = []
+maxDepth = 21
+for i in range(1,maxDepth):
+
+  # create and fir decision tree
+  tree = DecisionTreeClassifier(random_state = 1, max_depth = i)
+
+  tree.fit(X_train,y_train)
+  score.append(tree.score(X_train,y_train))
+  # print(score)
+
+# plot results
+plt.plot(range(1,maxDepth),score)
+plt.xlabel('MaxDepth')
+plt.ylabel('Score')
+plt.show()
+
+# train again with the best depth
+bestDepth = 14
+tree = DecisionTreeClassifier(random_state = 1, max_depth = bestDepth)
+tree.fit(X_train,y_train)
+
+# see the score
+print(f'Decision tree model score: {tree.score(X_test,y_test)}')
+
+# %%
