@@ -223,9 +223,6 @@ tree.fit(X_train,y_train)
 
 # see the score
 print(f'Decision tree model score: {tree.score(X_test,y_test)}')
-
-# map age to different classes
-# and family
 # %%
 # Random Forest
 
@@ -236,6 +233,3 @@ forest.fit(X_train,y_train)
 # print feature importance and score
 print(list(zip(features.columns,forest.feature_importances_)))
 print(f'Random forest model score: {forest.score(X_test,y_test)}')
-
-# map age to different classes
-# and family
