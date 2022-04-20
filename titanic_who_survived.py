@@ -15,20 +15,22 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 
 
-
 # Load the passenger data
 df_train = pd.read_csv('train.csv')
 df_test = pd.read_csv('test.csv')
 
-# print(df_train.head())
-# print(df_test.head())
+print(df_train.head())
+print(df_test.head())
 
 print(df_train.info())
 print(df_train.describe().transpose())
 
+# check and remove certain columns and missing points
+print(df_train.Embarked.value_counts(dropna = False))
+print(df_train.Cabin.value_counts(dropna = False))
 
-# print(df_train.Embarked.value_counts(dropna = False))
-# print(df_train.Cabin.value_counts(dropna = False))
+df_train.drop(labels = ['Cabin'], axis = 1)
+df_train.dropna(subset = ['Embarked'], inplace = True)
 
 # %%
 # Exploratory Data Analisys
@@ -76,7 +78,7 @@ df_train.Age.fillna(df_train.Age.mean(),inplace = True)
 # %%
 # Create new features
 
-# Whether they were alone on the boat or not
+# Whether people were alone on the boat or not
 df_train['Alone'] = (df_train['SibSp'] + df_train['SibSp']) == 0
 df_train['Alone'] = df_train['Alone'].astype(int)
 
